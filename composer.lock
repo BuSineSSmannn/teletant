@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7dfe34efb97f1d1bb274eebd1269f2d0",
+    "content-hash": "2ae731ff741f77c1bb9bfe1de4aac921",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -304,22 +304,21 @@
         },
         {
             "name": "jaysondev/formatter",
-            "version": "dev-main",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BuSineSSmannn/formatter.git",
-                "reference": "200e953c013b4a076dc819abe1b20af64a0341ea"
+                "reference": "3c6abcb8575338fcee294a654f97596cec093991"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BuSineSSmannn/formatter/zipball/200e953c013b4a076dc819abe1b20af64a0341ea",
-                "reference": "200e953c013b4a076dc819abe1b20af64a0341ea",
+                "url": "https://api.github.com/repos/BuSineSSmannn/formatter/zipball/3c6abcb8575338fcee294a654f97596cec093991",
+                "reference": "3c6abcb8575338fcee294a654f97596cec093991",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -339,9 +338,9 @@
             "description": "PHP text formatting",
             "support": {
                 "issues": "https://github.com/BuSineSSmannn/formatter/issues",
-                "source": "https://github.com/BuSineSSmannn/formatter/tree/main"
+                "source": "https://github.com/BuSineSSmannn/formatter/tree/1.0.3"
             },
-            "time": "2022-01-22T19:25:08+00:00"
+            "time": "2022-01-22T19:53:15+00:00"
         },
         {
             "name": "psr/http-client",
@@ -546,9 +545,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "jaysondev/formatter": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
