@@ -250,7 +250,8 @@ class Api
 
     public function sendRequestAsync(string $method, string $action, array $params)
     {
-        $client = &$this->getClient();
+        $client1 = $this->getClient();
+        $client = &$client1;
         $promise = function () use ($client, $method, $action, $params) {
             return $client->requestAsync($method, $action, $params);
         };

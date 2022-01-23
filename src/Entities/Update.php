@@ -66,4 +66,14 @@ class Update extends Entity
         return new PollAnswer(parent::_data('poll_answer'));
     }
 
+    public function myChatMember(): ChatMemberUpdated
+    {
+        return new ChatMemberUpdated(parent::_data('my_chat_member'));
+    }
+
+    public function chatMember(): ChatMemberUpdated
+    {
+        return new ChatMemberUpdated(parent::_data('chat_member'));
+    }
+
 }

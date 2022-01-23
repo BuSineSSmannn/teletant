@@ -85,11 +85,29 @@ trait EventBuilder
         });
     }
 
+
+    /**
+     * @param string $command Command in message text (like /start)
+     * @param callable $handler Event handler function (accepts Context)
+     * @return Event
+     */
+    public function onMyChatMember(callable $handler)
+    {
+        $current = $this->currentMiddlewares;
+        return $this->eventHandler->handle(function (Context $ctx) use ($handler, $current) {
+            if (!$ctx->myChatMember()->isEmpty()) {
+                $this->bootEvent($current, $handler)->handleEvent($ctx);
+                return true;
+            }
+            return false;
+        });
+    }
+
     /**
      * @param callable $handler Event handler function (accepts Context)
      * @return Event
      */
-    public function onStart(callable $handler)
+    public function onStart(callable $handler): Event
     {
         return $this->onCommand('start', $handler);
     }
@@ -98,7 +116,7 @@ trait EventBuilder
      * @param callable $handler Event handler function (accepts Context)
      * @return Event
      */
-    public function onAnyDice(callable $handler)
+    public function onAnyDice(callable $handler): Event
     {
         $current = $this->currentMiddlewares;
         return $this->eventHandler->handle(function (Context $ctx) use ($handler, $current) {
@@ -114,7 +132,7 @@ trait EventBuilder
      * @param callable $handler Event handler function (accepts Context)
      * @return Event
      */
-    public function onDice(callable $handler)
+    public function onDice(callable $handler): Event
     {
         $current = $this->currentMiddlewares;
         return $this->eventHandler->handle(function (Context $ctx) use ($handler, $current) {

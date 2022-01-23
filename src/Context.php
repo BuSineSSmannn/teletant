@@ -6,6 +6,7 @@ namespace JaysonDev\Teletant;
 use JaysonDev\Formatter\Formatter;
 use JaysonDev\Teletant\Entities\CallbackQuery;
 use JaysonDev\Teletant\Entities\Chat;
+use JaysonDev\Teletant\Entities\ChatMemberUpdated;
 use JaysonDev\Teletant\Entities\ChosenInlineResult;
 use JaysonDev\Teletant\Entities\Dice;
 use JaysonDev\Teletant\Entities\File;
@@ -328,6 +329,11 @@ class Context
         return $this->update()->callbackQuery();
     }
 
+    public function myChatMember(): ChatMemberUpdated
+    {
+        return $this->update()->myChatMember();
+    }
+
     /**
      * @return User
      */
@@ -342,6 +348,8 @@ class Context
         elseif(!$this->update()->shippingQuery()->isEmpty())        return $this->update()->shippingQuery()->from();
         elseif(!$this->update()->preCheckoutQuery()->isEmpty())     return $this->update()->preCheckoutQuery()->from();
         elseif(!$this->update()->chosenInlineResult()->isEmpty())   return $this->update()->chosenInlineResult()->from();
+        elseif(!$this->update()->myChatMember()->isEmpty())         return $this->update()->myChatMember()->from();
+        elseif(!$this->update()->chatMember()->isEmpty())           return $this->update()->chatMember()->from();
         else                                                        return new User([]);
     }
 
@@ -350,6 +358,9 @@ class Context
      */
     public function getChat(): Chat
     {
+        if(!$this->update()->myChatMember()->isEmpty() ||!$this->update()->chatMember()->isEmpty()){
+            return $this->myChatMember()->chat();
+        }
         return $this->getMessage()->chat();
     }
 
@@ -358,7 +369,7 @@ class Context
      */
     public function getChatType(): ?string
     {
-        return $this->getMessage()->chat()->type() ?? '';
+        return $this->getChat()->type() ?? '';
     }
 
     /**
@@ -406,6 +417,7 @@ class Context
      */
     public function getChatID(): ?int
     {
+
         return $this->getChat()->id();
     }
 
@@ -518,17 +530,31 @@ class Context
 
     /**
      * @param string $text
-     * @param string $keyboard
+     * @param string|null $keyboard
      * @param bool $reply_mode
      * @param array $options
      * @return Message
-     * @throws Exception\TeletantException
+     * @throws TeletantException
      */
     public function replyHTML(string $text, string $keyboard = null, bool $reply_mode = false, array $options = []): Message
     {
         $options['parse_mode'] = 'HTML';
         $text = $this->Formatter()->format($text);
         return $this->reply($text, $keyboard, $reply_mode, $options);
+    }
+
+    /**
+     * @param string $text
+     * @param string|null $keyboard
+     * @param bool $reply_mode
+     * @param array $options
+     * @return Message
+     * @throws TeletantException
+     */
+    public function replyBold(string $text, string $keyboard = null, bool $reply_mode = false, array $options = []): Message
+    {
+        $options['parse_mode'] = 'HTML';
+        return $this->reply("<b>".$text."</b>",$keyboard,$reply_mode,$options);
     }
 
     /**
@@ -775,5 +801,15 @@ class Context
     public function replyChatAction(string $action)
     {
         return $this->api->sendChatAction(['chat_id' => $this->getChatID(), 'action' => $action]);
+    }
+
+    /**
+     * @param string|null $text
+     * @return array|string
+     */
+    public function clearHTML(string|null $text): array|string
+    {
+        return str_replace(['&', '<', '>','{','}'], ['&amp;', '&lt;', '&gt;','&#123;','&#125;'], $text);
+
     }
 }
